@@ -37,7 +37,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -74,6 +73,7 @@ public class MainScreen extends javax.swing.JFrame {
         txtWord = new javax.swing.JTextField();
         btFindDownload = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
+        btClear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Antenna");
@@ -88,6 +88,18 @@ public class MainScreen extends javax.swing.JFrame {
         });
 
         btCancel.setText("Cancel");
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelActionPerformed(evt);
+            }
+        });
+
+        btClear.setText("Clear");
+        btClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btClearActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -97,14 +109,15 @@ public class MainScreen extends javax.swing.JFrame {
                 .addContainerGap()
                 .add(jLabel1)
                 .add(18, 18, 18)
-                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(jPanel1Layout.createSequentialGroup()
-                        .add(24, 24, 24)
                         .add(btFindDownload)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(btCancel))
-                    .add(txtWord, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 321, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                    .add(txtWord, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btClear)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(new java.awt.Component[] {btCancel, btFindDownload}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
@@ -114,7 +127,8 @@ public class MainScreen extends javax.swing.JFrame {
             .add(jPanel1Layout.createSequentialGroup()
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(txtWord, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                    .add(jLabel1))
+                    .add(jLabel1)
+                    .add(btClear))
                 .add(18, 18, 18)
                 .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btFindDownload)
@@ -203,6 +217,18 @@ public class MainScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btFindDownloadActionPerformed
 
+    private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
+        this.dispose();
+        System.exit(0);
+    }//GEN-LAST:event_btCancelActionPerformed
+
+    private void btClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btClearActionPerformed
+        clearTextWord();
+    }//GEN-LAST:event_btClearActionPerformed
+
+    private void clearTextWord() {
+        txtWord.setText("");
+    }
     private void startTaskDownloadSound(final String word, final List<SoundInfo> soundsInfos) {
         SwingWorker swingWorker = new SwingWorker<DownloadSoundInfo, Void>() {
             @Override
@@ -216,6 +242,7 @@ public class MainScreen extends javax.swing.JFrame {
                     super.done();
                     DownloadSoundInfo downloadSoundInfo = get();
                     if (downloadSoundInfo.isSuccessAll()) {
+                        clearTextWord();
                         JOptionPane.showMessageDialog(MainScreen.this,
                                 "Download success " + downloadSoundInfo.total + " sounds.");
                     } else {
@@ -378,6 +405,7 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
+    private javax.swing.JButton btClear;
     private javax.swing.JButton btFindDownload;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
